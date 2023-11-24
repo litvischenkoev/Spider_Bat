@@ -73,6 +73,7 @@ class Spider():
         if (keys[self.keySHOT] or mouse_press[0]) and self.spit_timer == 0:
             Spit(self, self.px, self.py, self.pr, self.direction, self.damage, self.spit_speed)
             self.spit_timer = self.spit_delay
+            spit_sound.play()
 
         if self.spit_timer > 0 :
             self.spit_timer -= 1
@@ -131,6 +132,7 @@ class Spit():
                     obj.damages(self.damage)
                     info_obj.append(Info(self.px, self.py, 'darkblue', f"-{self.damage} HP"))
                     spit_obj.remove(self)
+                    bang_sound.play()
 
     def draw(self):
         #change image spit depending whos spit
@@ -280,6 +282,7 @@ class Bonus():
                         info_obj.append(Info(self.px, self.py, 'darkblue', "-10 HP"))
                         if obj.hp <= 0:
                             objects.remove(obj)
+                    bonus_sound.play()
                 objects.remove(self) #remove bonus when get it
     def draw(self):
         if self.time_to_live % 30 < 15 :
@@ -385,6 +388,7 @@ def game_over():
     global game_over_flag
     play_game_flag = False
     game_over_flag = True
+    game_over_sound.play()
 
 
 # array of objects
@@ -427,10 +431,18 @@ bat_img = [pygame.image.load(f'images/sprite/bat_{i}.png').convert_alpha() for i
 stoun_img = [pygame.image.load(f'images/sprite/stoun_{i}.png').convert_alpha()  for i in range(1, 6)]
 bonus_img = [pygame.image.load(f'images/sprite/bonus_{i}.png').convert_alpha()  for i in range(1, 4)]
 bang_img = [pygame.image.load(f'images/sprite/bang_{i}.png').convert_alpha()  for i in range(1, 8)]
+
 game = pygame.image.load("images/icon/logo1.png")
 
 background_image = pygame.image.load("images/bg/bg3.jpg").convert_alpha()
 background_rect = background_image.get_rect()
+
+# background_sound = pygame.mixer.Sound("sounds/4.wav")
+# background_sound.play(-1)
+spit_sound = pygame.mixer.Sound("sounds/plevok.mp3")
+bang_sound = pygame.mixer.Sound("sounds/bang.wav")
+game_over_sound = pygame.mixer.Sound("sounds/game.wav")
+bonus_sound = pygame.mixer.Sound("sounds/bonus.wav")
 
 #sprits counres
 spider_tik = 0
