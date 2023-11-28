@@ -9,6 +9,7 @@ bat_timer = pygame.USEREVENT + 1 # timet event create bat
 bonus_timer = pygame.USEREVENT + 2 #timer event bonus
 bonus_timer_delay = 7000 # delay between bonus create
 pygame.time.set_timer(bat_timer, 5000)
+
 pygame.time.set_timer(bonus_timer, bonus_timer_delay)
 
 FPS = 20
@@ -19,6 +20,8 @@ HEIGHT_SPIDER = 32
 TILE = 45
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
+
+
 direction_move = [[-1, 0, 90],[1, 0, 270],[0, -1, 0],[0, 1, 180]]
 class Spider():
     """Create Spider"""
@@ -130,7 +133,7 @@ class Spit():
                                     self.parent.spit_delay -= 5
                                 info_obj.append(Info(self.px, self.py, 'yellow', "Lvl.UP"))
                     obj.damages(self.damage)
-                    info_obj.append(Info(self.px, self.py, 'darkblue', f"-{self.damage} HP"))
+                    info_obj.append(Info(self.px, self.py, 'darkred', f"-{self.damage} HP"))
                     spit_obj.remove(self)
                     bang_sound.play()
 
@@ -408,7 +411,7 @@ Spider(100, 100, 0,(pygame.K_a, pygame.K_d, pygame.K_w, pygame.K_s, pygame.K_f))
 ui_scren = UI()
 
 #function for create stoun on map
-for _ in range(20):
+for _ in range(25):
     while True:
         x = randint(0, WIDTH // TILE) * TILE
         y = randint(0, HEIGHT // TILE) * TILE
@@ -418,6 +421,8 @@ for _ in range(20):
         for obj in objects:
             if rect.colliderect(obj):
                 finded_cros = True
+        if  rect.colliderect(objects[0].rect):
+            finded_cros = True
         if not finded_cros:
             break
     Block(x, y, TILE, img)
